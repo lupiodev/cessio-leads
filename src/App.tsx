@@ -1,27 +1,22 @@
-import "./App.css";
 import { ButtonMenu } from "./components/ButtonMenu";
-import { SVGNatural, SVGJuridica } from "./components/ui/SVGToMenu";
 
-function App() {
-  //const [count, setCount] = useState(0);
-  return (
-    <div className="flex flex-col gap-4">
+const App = () => (
+    <div className="flex flex-col gap-4 font-custom">
       <ButtonMenu
         {...{
+          id: 1,
           title: "Persona Natural",
-          desc: "Negocios que figuren a nombre y ruc personal.",
-          Icon: SVGNatural
+          desc: "Negocios que figuren a nombre y ruc personal."
         }}
       />
       <ButtonMenu
         {...{
+          id: 2,
           title: "Persona Jurídica",
-          desc: "Negocios que figuren como entidades legalmente constituídas.",
-          Icon: SVGJuridica
+          desc: "Negocios que figuren como entidades legalmente constituídas."
         }}
       />
     </div>
   );
-}
 
 export default App;

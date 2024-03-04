@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "label": "Agricultura y ganadería"
+    },
+    {
+        "id": 2,
+        "label": "Automotriz"
+    },
+    {
+        "id": 3,
+        "label": "Construcción"
+    },
+    {
+        "id": 4,
+        "label": "Energía (Renovable, Petróleo y Gas, Eléctrica, etc.)"
+    },
+    {
+        "id": 5,
+        "label": "Alimentos y bebidas"
+    },
+    {
+        "id": 6,
+        "label": "Tecnología de la información y comunicaciones"
+    },
+    {
+        "id": 7,
+        "label": "Manufactura"
+    },
+    {
+        "id": 8,
+        "label": "Salud y farmacéutica"
+    },
+    {
+        "id": 9,
+        "label": "Turismo y hospitalidad"
+    },
+    {
+        "id": 10,
+        "label": "Medios de comunicación y entretenimiento"
+    },
+    {
+        "id": 11,
+        "label": "Educación"
+    },
+    {
+        "id": 12,
+        "label": "Finanzas y banca"
+    },
+    {
+        "id": 13,
+        "label": "Servicios profesionales (consultoría, contabilidad, abogacía, etc.)"
+    },
+    {
+        "id": 14,
+        "label": "Logística y transporte"
+    },
+    {
+        "id": "Moda y belleza",
+        "label": "Moda y belleza"
+    },
+    {
+        "id": 15,
+        "label": "Telecomunicaciones"
+    },
+    {
+        "id": 16,
+        "label": "Ingeniería y arquitectura"
+    },
+    {
+        "id": 17,
+        "label": "Investigación y desarrollo"
+    },
+    {
+        "id": 18,
+        "label": "Medio ambiente y sostenibilidad"
+    },
+    {
+        "id": 19,
+        "label": "Otros"
+    }
+]

@@ -1,0 +1,36 @@
+.swiper {
+  @apply flex flex-col-reverse py-10 text-left;
+}
+.swiper-pagination {
+  @apply relative flex justify-between items-center max-w-[250px] mx-auto mb-6;
+}
+.swiper-pagination-bullet:after {
+  @apply absolute top-10 text-dark text-xs w-[144px];
+}
+.swiper-pagination-bullet {
+  @apply relative w-7 h-7 bg-primary flex items-center justify-center z-10 rounded-full font-semibold text-white text-sm;
+}
+.swiper-pagination-bullet:not(:first-child):before {
+  @apply content-[''] absolute h-[6px] w-[80px] bg-primary right-[100%] top-[48%] -translate-y-2/4;
+}
+.swiper-pagination-bullet.swiper-pagination-bullet-active {
+  @apply bg-primary;
+}
+
+@media (min-width:440px){
+  .swiper-pagination {
+    @apply max-w-[360px];
+  }
+  .swiper-pagination-bullet:not(:first-child):before {
+    @apply w-[134px]
+  }
+  .swiper-pagination-bullet:nth-child(1):after {
+    content: "Información general";
+  }
+  .swiper-pagination-bullet:nth-child(2):after {
+    content: "Datos del negocio";
+  }
+  .swiper-pagination-bullet:nth-child(3):after {
+    content: "Indicaciones";
+  }
+}

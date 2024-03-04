@@ -1,6 +1,4 @@
-import React,{ReactElement} from "react";
-
-export const SVGNatural: React.FC = (): ReactElement=> (
+export const SVGNatural = () => (
   <svg
     width="27"
     height="30"
@@ -15,7 +13,7 @@ export const SVGNatural: React.FC = (): ReactElement=> (
   </svg>
 );
 
-export const SVGJuridica: React.FC = (): ReactElement=> (
+export const SVGJuridica = () => (
   <svg
     width="27"
     height="30"
