@@ -17,6 +17,7 @@ export const ButtonMenu: React.FC<{
       showCloseButton: true,
       showConfirmButton: false,
       allowOutsideClick: false,
+      position: 'top',
       customClass: {
         popup: "formpopup",
         closeButton: "formpopup__close-popup",

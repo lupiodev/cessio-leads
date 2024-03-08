@@ -1,14 +1,12 @@
-// import { useEffect, useState } from "react";
-// import { useSwiper } from "swiper/react";
+import { useSwiper } from "swiper/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-//import { sendData } from '@helpers/sendData'
 import { ciudades } from "../../../mocks/ciudades";
 import industria from "../../../mocks/industria.json";
 import "../styles/form.scss";
 import { ArrowRight } from "../../ui/ArrowRight";
 import { FormIdentification } from "../../FormIdentification";
-
+import { sendData } from "../../../utils/sendData";
 /**
  *  @see https://formik.org/
  *
@@ -16,7 +14,7 @@ import { FormIdentification } from "../../FormIdentification";
 
 const Step1: React.FC<{ id: number; title: string }> = ({ id, title }) => {
   //const [isLoading, setIsLoading] = useState(false);
-  // const swiper = useSwiper();
+  const swiper = useSwiper();
   // useEffect(() => {
   //   'lead_id' in localStorage && swiper.slideNext()
   // }, [])
@@ -46,13 +44,12 @@ const Step1: React.FC<{ id: number; title: string }> = ({ id, title }) => {
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
           console.log("🚀 ~ file: Step1.tsx:40 ~ onSubmit={ ~ values:", values);
-          //setIsLoading(true);
-          //const res = await sendData(values)
-          // if (res.ok) {
-          //   localStorage.setItem('lead_id', res.id)
-          //   setIsLoading(false)
+          setSubmitting(true);
+          const res = await sendData(values)
+          console.log("🚀 ~ file: Step1.tsx:49 ~ onSubmit={ ~ res:", res)
+          // if (res?.ok && window.localStorage) {
+          //   localStorage.setItem('lead_id', res.post_id)
           //   swiper.slideNext()
-          //   //showToast()
           // } else {
           //   console.error(res.message)
           // }
@@ -61,6 +58,7 @@ const Step1: React.FC<{ id: number; title: string }> = ({ id, title }) => {
       >
         {({ isSubmitting }) => (
           <Form className="leads elementor-widget-posts">
+            <div className="shadow-md py-8 px-6">
             <div className="leads__fields">
               <div>
                 <label>
@@ -121,17 +119,18 @@ const Step1: React.FC<{ id: number; title: string }> = ({ id, title }) => {
                 <ErrorMessage name="sector" component="span" />
               </div>
             </div>
-           <div className="text-center">
-             <button
-               style={{ backgroundColor: "57F497" }}
-               className="leads__button elementor-button"
-               type="submit"
-               disabled={isSubmitting}
-             >
-               Continuar
-               <ArrowRight />
-             </button>
-           </div>
+            </div>
+            <div className="text-center">
+              <button
+                style={{ backgroundColor: "57F497" }}
+                className="leads__button elementor-button"
+                type="submit"
+                disabled={isSubmitting}
+              >
+                Continuar
+                <ArrowRight />
+              </button>
+            </div>
           </Form>
         )}
       </Formik>

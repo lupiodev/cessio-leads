@@ -11,7 +11,6 @@ export const LeadForm: React.FC<{ id: number; title: string }> = ({
   id,
   title,
 }) => {
-  console.log("🚀 ~ file: index.tsx:14 ~ id:", id);
   const pagination: PaginationOptions = {
     clickable: true,
     renderBullet: (index, className) =>
