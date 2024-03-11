@@ -1,7 +1,5 @@
 import { useSwiper } from "swiper/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-//import Select from 'react-select'
-//import { sendData } from '@helpers/sendData'
 import * as Yup from "yup";
 import { Spinner } from "../../ui/Spinner";
 import { ArrowRight } from "../../ui/ArrowRight";

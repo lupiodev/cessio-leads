@@ -1,4 +1,3 @@
-//import { Pagination } from "swiper";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { PaginationOptions } from "swiper/types";
