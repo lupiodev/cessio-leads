@@ -23,16 +23,22 @@ const Step1: React.FC<{
   // useEffect(() => {
   //   'lead_id' in localStorage && swiper.slideNext()
   // }, [])
-  const initialValues: PNaturalStep1 = {
+  const initialValuesPN: PNaturalStep1 = {
+    id,
     nombre: "",
     cedula: "",
     celular: "",
     correo: "",
     ciudad: "",
     sector: "",
-    action: "step-one-natural",
+    action: "step-one",
   };
-  const validationSchema = Yup.object().shape({
+  const initialValuesPJ: PJuridicaStep1 = {
+    ...initialValuesPN,
+    ruc: "",
+    razon_social: "",
+  };
+  const validationSchemaPN = Yup.object().shape({
     nombre: Yup.string().required("El nombre es requerido"),
     cedula: Yup.string()
       .matches(/^[0-9]+$/, "Debe contener solo números")
@@ -48,12 +54,21 @@ const Step1: React.FC<{
     ciudad: Yup.string().required("La ciudad es requirida"),
     sector: Yup.string().required("El sector económico es requirido"),
   });
+
+  const validationSchemaPJ = validationSchemaPN.shape({
+    ruc: Yup.string()
+      .matches(/^[0-9]+$/, "Debe contener solo números")
+      .min(13, "El ruc debe tener 13 dígitos")
+      .max(13, "El ruc debe tener solo 13 dígitos")
+      .required("El RUC es requerido"),
+    razon_social: Yup.string().required("La razón social es requerida"),
+  });
   return (
     <>
       <FormIdentification id={id} title={title} />
       <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
+        initialValues={id == 1 ? initialValuesPN : initialValuesPJ}
+        validationSchema={id == 1 ? validationSchemaPN : validationSchemaPJ}
         onSubmit={async (values, { setSubmitting }) => {
           setSubmitting(true);
           const data = await sendData(values);
@@ -70,14 +85,18 @@ const Step1: React.FC<{
               <div className="leads__fields">
                 <div>
                   <label>
-                    Nombre del aplicante
+                    {id == 1
+                      ? "Nombre del aplicante"
+                      : "Nombre del representante legal"}
                     <Field type="text" name="nombre" />
                   </label>
                   <ErrorMessage name="nombre" component="span" />
                 </div>
                 <div>
                   <label>
-                    Cédula del aplicante
+                    {id == 1
+                      ? "Cédula del aplicante"
+                      : "Cédula del representante legal"}
                     <Field type="text" name="cedula" />
                   </label>
                   <ErrorMessage name="cedula" component="span" />
@@ -86,23 +105,45 @@ const Step1: React.FC<{
               <div className="leads__fields">
                 <div>
                   <label>
-                    Número de Celular
+                    {id == 1
+                      ? "Número de Celular"
+                      : "Celular del representante legal"}
                     <Field type="text" name="celular" />
                   </label>
                   <ErrorMessage name="celular" component="span" />
                 </div>
                 <div>
                   <label>
-                    Correo electrónico
+                    {id == 1
+                      ? "Correo electrónico"
+                      : "Correo-E del representante legal"}
                     <Field type="email" name="correo" />
                   </label>
                   <ErrorMessage name="correo" component="span" />
                 </div>
               </div>
+              {id == 2 && (
+                <div className="leads__fields">
+                  <div>
+                    <label>
+                      RUC
+                      <Field type="text" name="ruc" />
+                    </label>
+                    <ErrorMessage name="ruc" component="span" />
+                  </div>
+                  <div>
+                    <label>
+                      Razón Social
+                      <Field type="text" name="razon_social" />
+                    </label>
+                    <ErrorMessage name="razon_social" component="span" />
+                  </div>
+                </div>
+              )}
               <div className="leads__fields">
                 <div>
                   <label>
-                    Ciudad
+                    {id == 1 ? "Ciudad" : "Ciudad del representante legal"}
                     <Field as="select" name="ciudad">
                       <option value="">Seleccione su ciudad</option>
                       {ciudades.map((ciudad) => (

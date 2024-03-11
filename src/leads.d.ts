@@ -1,4 +1,5 @@
 interface PNaturalStep1 {
+  id: number;
   nombre: string;
   cedula: string;
   celular: string;
@@ -7,7 +8,12 @@ interface PNaturalStep1 {
   sector: string;
   action: string;
 }
-interface PNaturalStep2 {
+interface PJuridicaStep1 extends PNaturalStep1 {
+  ruc: string;
+  razon_social: string;
+}
+interface Step2 {
+  id:number;
   producto_servicio_1: string;
   producto_servicio_2?: string;
   producto_servicio_3?: string;

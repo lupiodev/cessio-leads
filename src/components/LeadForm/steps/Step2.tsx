@@ -20,7 +20,8 @@ const Step2: React.FC<{
 }> = ({ id, title, postId }) => {
   const swiper = useSwiper();
 
-  const initialValues: PNaturalStep2 = {
+  const initialValues: Step2 = {
+    id,
     producto_servicio_1: "",
     producto_servicio_2: "",
     producto_servicio_3: "",
@@ -37,7 +38,7 @@ const Step2: React.FC<{
     ruc_comprador_3: "",
     revisar_buro: false,
     terminos_condiciones: false,
-    action: "step-two-natural",
+    action: "step-two",
     postId,
   };
 
@@ -76,7 +77,6 @@ const Step2: React.FC<{
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
-          console.log("🚀 ~ file: Step2.tsx:63 ~ onSubmit={ ~ values:", values);
           setSubmitting(true);
           const data = await sendData(values);
           if (data.ok) {
@@ -210,6 +210,7 @@ const Step2: React.FC<{
                       name="ruc_comprador_2"
                       placeholder="Ruc comprador 2"
                     />
+                     <ErrorMessage name="ruc_comprador_2" component="span" />
                   </div>
                 </div>
                 <div className="leads__fields flex">
@@ -227,6 +228,7 @@ const Step2: React.FC<{
                       name="ruc_comprador_3"
                       placeholder="Ruc comprador 3"
                     />
+                     <ErrorMessage name="ruc_comprador_3" component="span" />
                   </div>
                 </div>
               </div>
