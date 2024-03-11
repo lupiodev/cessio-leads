@@ -7,6 +7,26 @@
 }
 .leads {
   @apply overflow-hidden py-6 px-3;
+  &__group{
+    @apply mb-2;
+    span {
+      color: red;
+      font-size: 12px;
+      @apply block mt-1
+    }
+    &.checkbox{
+      @apply block max-w-[600px] mx-auto;
+      label{
+        @apply  cursor-pointer text-xs ml-3
+      }
+      input[type="checkbox"]{
+        @apply bg-primary
+      }
+      span{
+        @apply ml-7
+      }
+    }
+  }
   &__fields {
     @apply grid md:grid-cols-2 gap-4 mb-3;
     input[type="text"],
@@ -61,7 +81,7 @@
     }
   }
   &__button {
-    @apply inline-flex justify-around mx-auto w-full max-w-44 mt-10;
+    @apply inline-flex justify-around w-full max-w-44 py-4 mt-10;
     &:hover {
       background-color: #02848d;
     }
@@ -70,7 +90,7 @@
 .thankyou {
   @apply text-center max-w-[700px] mx-auto py-5;
   &__wrapper{
-    @apply shadow-lg rounded px-10 md:px-16 py-14
+    @apply shadow-md rounded px-10 md:px-16 py-14 border
   }
   &__title{
     @apply text-heading font-bold my-5

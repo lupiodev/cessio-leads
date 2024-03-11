@@ -25,4 +25,5 @@ interface PNaturalStep2 {
   revisar_buro: boolean;
   terminos_condiciones: boolean;
   action: string;
+  postId: number | undefined;
 }

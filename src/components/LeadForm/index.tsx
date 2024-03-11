@@ -1,4 +1,5 @@
 //import { Pagination } from "swiper";
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { PaginationOptions } from "swiper/types";
 import { Pagination } from "swiper";
@@ -11,6 +12,7 @@ export const LeadForm: React.FC<{ id: number; title: string }> = ({
   id,
   title,
 }) => {
+  const [postId, setPostId] = useState<number | undefined>();
   const pagination: PaginationOptions = {
     clickable: true,
     renderBullet: (index, className) =>
@@ -47,12 +49,12 @@ export const LeadForm: React.FC<{ id: number; title: string }> = ({
         >
           <SwiperSlide>
             {({ isActive }) => {
-              if (isActive) return <Step1 id={id} title={title} />;
+              if (isActive) return <Step1 id={id} title={title} setPostId={setPostId}/>;
             }}
           </SwiperSlide>
           <SwiperSlide>
             {({ isActive }) => {
-              if (isActive) return <Step2 id={id} title={title}/>;
+              if (isActive) return <Step2 id={id} title={title} postId={postId}/>;
             }}
           </SwiperSlide>
           <SwiperSlide>

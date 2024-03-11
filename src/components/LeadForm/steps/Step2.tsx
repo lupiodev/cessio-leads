@@ -1,22 +1,24 @@
-import { useState } from "react";
 import { useSwiper } from "swiper/react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 //import Select from 'react-select'
 //import { sendData } from '@helpers/sendData'
 import * as Yup from "yup";
-
+import { Spinner } from "../../ui/Spinner";
+import { ArrowRight } from "../../ui/ArrowRight";
 import "../styles/form.scss";
 import { FormIdentification } from "../../FormIdentification";
+import { sendData } from "../../../utils/sendData";
 
 /**
  *  @see https://formik.org/
  *
  **/
-const Step2: React.FC<{ id: number; title: string }> = ({ id, title }) => {
-  const [isLoading, setIsLoading] = useState(false);
-  // const [isSearchable, setIsSearchable] = useState(true)
-
-  //const swiper = useSwiper();
+const Step2: React.FC<{
+  id: number;
+  title: string;
+  postId: number | undefined;
+}> = ({ id, title, postId }) => {
+  const swiper = useSwiper();
 
   const initialValues: PNaturalStep2 = {
     producto_servicio_1: "",
@@ -35,7 +37,8 @@ const Step2: React.FC<{ id: number; title: string }> = ({ id, title }) => {
     ruc_comprador_3: "",
     revisar_buro: false,
     terminos_condiciones: false,
-    action: "step_two_natural",
+    action: "step-two-natural",
+    postId,
   };
 
   const validationSchema = Yup.object().shape({
@@ -45,10 +48,26 @@ const Step2: React.FC<{ id: number; title: string }> = ({ id, title }) => {
     ventas_ano_anterior: Yup.string().required("Este campo es obligatorio"),
     ventas_sector_privado: Yup.string().required("Este campo es obligatorio"),
     ventas_sector_publico: Yup.string().required("Este campo es obligatorio"),
-    compradores_negociar_1: Yup.object().required("Este campo es obligatorio"),
-    ruc_comprador_1: Yup.object().required("Este campo es obligatorio"),
-    revisar_buro: Yup.boolean().required("Este campo es obligatorio"),
-    terminos_condiciones: Yup.boolean().required("Este campo es obligatorio"),
+    compradores_negociar_1: Yup.string().required("Este campo es obligatorio"),
+    ruc_comprador_1: Yup.string()
+      .matches(/^[0-9]+$/, "Debe contener solo números")
+      .min(13, "El ruc debe tener 13 dígitos")
+      .max(13, "El rucdebe tener solo 13 dígitos")
+      .required("Este campo es obligatorio"),
+    ruc_comprador_2: Yup.string()
+      .matches(/^[0-9]+$/, "Debe contener solo números")
+      .min(13, "El ruc debe tener 13 dígitos")
+      .max(13, "El ruc debe tener solo 13 dígitos"),
+    ruc_comprador_3: Yup.string()
+      .matches(/^[0-9]+$/, "Debe contener solo números")
+      .min(13, "El ruc debe tener 13 dígitos")
+      .max(13, "El ruc debe tener solo 13 dígitos"),
+    revisar_buro: Yup.boolean()
+      .oneOf([true], "Este campo es obligatorio")
+      .required("Este campo es obligatorio"),
+    terminos_condiciones: Yup.boolean()
+      .oneOf([true], "Este campo es obligario")
+      .required("Este campo es obligatorio"),
   });
   return (
     <>
@@ -57,209 +76,205 @@ const Step2: React.FC<{ id: number; title: string }> = ({ id, title }) => {
         initialValues={initialValues}
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
-          setIsLoading(true);
-          //const id = localStorage.getItem("lead_id");
-          // const thevalues = { ...values, id };
-          //const res = await sendData(thevalues)
-          // if (res.ok) {
-          //   localStorage.removeItem('lead_id')
-          //   setIsLoading(false)
-          //   swiper.slideNext()
-          // } else {
-          //   console.error(res.message)
-          // }
+          console.log("🚀 ~ file: Step2.tsx:63 ~ onSubmit={ ~ values:", values);
+          setSubmitting(true);
+          const data = await sendData(values);
+          if (data.ok) {
+            swiper.slideNext();
+          }
           setSubmitting(false);
         }}
       >
-        {({ isSubmitting, values }) => {
+        {({ isSubmitting }) => {
           return (
-            <Form className="leads">
-              <div className="leads__fields md:grid-cols-1 shadow-md py-8 px-6">
+            <Form className="leads elementor-widget-posts">
+              <div className="leads__fields md:grid-cols-1 border-1 shadow-md py-8 px-6">
                 <div className="leads__group">
                   <label>3 Principales Productos/Servicios</label>
-                  <div className="mb-2">
-                    <Field
-                      type="text"
-                      name="producto_servicio_1"
-                      placeholder="Producto o Servicio 1"
-                    />
-                    <ErrorMessage name="producto_servicio_1" component="span" />
-                  </div>
+                  <Field
+                    type="text"
+                    name="producto_servicio_1"
+                    placeholder="Producto/Servicio 1"
+                  />
+                  <ErrorMessage name="producto_servicio_1" component="span" />
                 </div>
                 <div className="leads__group">
-                  <div className="mb-2">
-                    <Field
-                      type="text"
-                      name="producto_servicio_2"
-                      placeholder="Producto o Servicio 2"
-                    />
-                  </div>
+                  <Field
+                    type="text"
+                    name="producto_servicio_2"
+                    placeholder="Producto/Servicio 2"
+                  />
                 </div>
                 <div className="leads__group">
-                  <div className="mb-2">
-                    <Field
-                      type="text"
-                      name="producto_servicio_3"
-                      placeholder="Producto o Servicio 3"
-                    />
-                  </div>
+                  <Field
+                    type="text"
+                    name="producto_servicio_3"
+                    placeholder="Producto/Servicio 3"
+                  />
                 </div>
               </div>
-              <div className="shadow-md my-8 py-8 px-6">
+              <div className="border-1 shadow-md my-8 py-8 px-6">
                 <div className="leads__fields md:grid-cols-3">
                   <div className="leads__group">
-                    <div className="mb-2">
-                      <label>Ventas USD mes anterior</label>
-                      <Field
-                        type="text"
-                        name="venta_mes_anterior"
-                        placeholder="$0"
-                      />
-                      <ErrorMessage
-                        name="venta_mes_anterior"
-                        component="span"
-                      />
-                    </div>
+                    <label>Ventas USD mes anterior</label>
+                    <Field
+                      type="text"
+                      name="venta_mes_anterior"
+                      placeholder="$0"
+                    />
+                    <ErrorMessage name="venta_mes_anterior" component="span" />
                   </div>
                   <div className="leads__group">
-                    <div className="mb-2">
-                      <label>Ventas Totales USD Año en curso</label>
-                      <Field
-                        type="text"
-                        name="ventas_ano_actual"
-                        placeholder="$0"
-                      />
-                      <ErrorMessage name="ventas_ano_actual" component="span" />
-                    </div>
+                    <label>Ventas Totales USD Año en curso</label>
+                    <Field
+                      type="text"
+                      name="ventas_ano_actual"
+                      placeholder="$0"
+                    />
+                    <ErrorMessage name="ventas_ano_actual" component="span" />
                   </div>
                   <div className="leads__group">
-                    <div className="mb-2">
-                      <label>Ventas Totales USD Año anterior</label>
-                      <Field
-                        type="text"
-                        name="ventas_ano_anterior"
-                        placeholder="$0"
-                      />
-                      <ErrorMessage
-                        name="ventas_ano_anterior"
-                        component="span"
-                      />
-                    </div>
+                    <label>Ventas Totales USD Año anterior</label>
+                    <Field
+                      type="text"
+                      name="ventas_ano_anterior"
+                      placeholder="$0"
+                    />
+                    <ErrorMessage name="ventas_ano_anterior" component="span" />
                   </div>
                 </div>
                 <div className="leads__fields">
                   <div className="leads__group">
-                    <div className="mb-2">
-                      <label>Ventas sector Privado %</label>
-                      <Field
-                        type="text"
-                        name="ventas_sector_privado"
-                        placeholder="%0"
-                      />
-                      <ErrorMessage
-                        name="ventas_sector_privado"
-                        component="span"
-                      />
-                    </div>
+                    <label>Ventas sector Privado %</label>
+                    <Field
+                      type="text"
+                      name="ventas_sector_privado"
+                      placeholder="%0"
+                    />
+                    <ErrorMessage
+                      name="ventas_sector_privado"
+                      component="span"
+                    />
                   </div>
                   <div className="leads__group">
-                    <div className="mb-2">
-                      <label>Ventas sector Público %</label>
-                      <Field
-                        type="text"
-                        name="ventas_sector_publico"
-                        placeholder="%0"
-                      />
-                      <ErrorMessage
-                        name="ventas_sector_publico"
-                        component="span"
-                      />
-                    </div>
+                    <label>Ventas sector Público %</label>
+                    <Field
+                      type="text"
+                      name="ventas_sector_publico"
+                      placeholder="%0"
+                    />
+                    <ErrorMessage
+                      name="ventas_sector_publico"
+                      component="span"
+                    />
                   </div>
                 </div>
               </div>
-              <div className="shadow-md py-8 px-6">
+              <div className="border-1 shadow-md py-8 px-6">
                 <div className="leads__fields flex">
                   <div className="leads__group w-3/5">
-                    <label>3 Principales Productos/Servicios</label>
-                    <div className="mb-2">
-                      <Field
-                        type="text"
-                        name="compradores_negociar_1"
-                        placeholder="Producto o Servicio 1"
-                      />
-                      <ErrorMessage
-                        name="compradores_negociar_1"
-                        component="span"
-                      />
-                    </div>
+                    <label>3 Compradores a Negociar</label>
+                    <Field
+                      type="text"
+                      name="compradores_negociar_1"
+                      placeholder="Nombre del comprador 1"
+                    />
+                    <ErrorMessage
+                      name="compradores_negociar_1"
+                      component="span"
+                    />
                   </div>
                   <div className="leads__group w-2/5">
-                  <label className="sr-only">Ruc comprador 1</label>
+                    <label className="sr-only">Ruc comprador 1</label>
                     <div className="mb-2 mt-4">
                       <Field
                         type="text"
                         name="ruc_comprador_1"
                         placeholder="Ruc comprador 1"
                       />
-                       <ErrorMessage
-                        name="ruc_comprador_1"
-                        component="span"
-                      />
+                      <ErrorMessage name="ruc_comprador_1" component="span" />
                     </div>
                   </div>
                 </div>
-                <div className="leads__group">
-                  <div className="mb-2">
+                <div className="leads__fields flex">
+                  <div className="leads__group w-3/5">
                     <Field
                       type="text"
                       name="compradores_negociar_2"
-                      placeholder="Producto o Servicio 2"
+                      placeholder="Nombre del comprador 2"
                     />
-                    <ErrorMessage
-                      name="compradores_negociar_2"
-                      component="span"
+                  </div>
+                  <div className="leads__group w-2/5">
+                    <Field
+                      type="text"
+                      name="ruc_comprador_2"
+                      placeholder="Ruc comprador 2"
                     />
                   </div>
                 </div>
-                <div className="leads__group">
-                  <label>3 </label>
-                  <div className="mb-2">
+                <div className="leads__fields flex">
+                  <div className="leads__group w-3/5">
                     <Field
                       type="text"
                       name="compradores_negociar_3"
-                      placeholder="Producto o Servicio 3"
+                      placeholder="Nombre del comprador 3"
                     />
-                    <ErrorMessage
-                      name="compradores_negociar_3"
-                      component="span"
+                  </div>
+                  <div className="leads__group w-2/5">
+                    <label className="sr-only">Ruc comprador 3</label>
+                    <Field
+                      type="text"
+                      name="ruc_comprador_3"
+                      placeholder="Ruc comprador 3"
                     />
                   </div>
                 </div>
               </div>
-              <div className="leads__group">
-                <label>3 </label>
-                <div className="mb-2">
-                  <Field type="checkbox" name="autoriza_revisar_buro" />
-                  <ErrorMessage name="autoriza_revisar_buro" component="span" />
+              <div className="leads__group checkbox mt-8">
+                <div className="inline-flex mb-2">
+                  <Field
+                    id="revisar_buro"
+                    type="checkbox"
+                    name="revisar_buro"
+                  />
+                  <label htmlFor="revisar_buro">
+                    Al ingresar estos datos, usted autoriza a CESSIO a realizar
+                    una investigación en el buró de crédito para acceder al
+                    servicio de factoring.
+                  </label>
                 </div>
+                <ErrorMessage name="revisar_buro" component="span" />
               </div>
-              <div className="leads__group">
-                <label>3 </label>
-                <div className="mb-2">
-                  <Field type="checkbox" name="terminos_condiciones" />
-                  <ErrorMessage name="terminos_condiciones" component="span" />
+              <div className="leads__group checkbox">
+                <div className="inline-flex mb-2">
+                  <Field
+                    id="terminos"
+                    type="checkbox"
+                    name="terminos_condiciones"
+                  />
+                  <label htmlFor="terminos">
+                    He leído y estoy de acuerdo con los términos y condiciones
+                    de CESSIO.
+                  </label>
                 </div>
+                <ErrorMessage name="terminos_condiciones" component="span" />
               </div>
-
-              <button
-                style={{ backgroundColor: "57F497" }}
-                className="leads__button btn"
-                type="submit"
-                disabled={isSubmitting}
-              >
-                Continuar
-              </button>
+              <div className="text-center">
+                <button
+                  className="leads__button elementor-button"
+                  type="submit"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <Spinner className="animate-spin" />
+                  ) : (
+                    <>
+                      Continuar
+                      <ArrowRight />
+                    </>
+                  )}
+                </button>
+              </div>
             </Form>
           );
         }}
