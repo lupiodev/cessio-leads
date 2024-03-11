@@ -41,7 +41,8 @@ add_action('wp_ajax_step-one', 'create_new_lead');
 function create_new_lead()
 {
     $data = json_decode(file_get_contents("php://input"));
-    error_log('Datos recibidos en la solicitud AJAX: ' . print_r($data, true));
+    // para ver /wp-content/debug.log activar define('WP_DEBUG', true) y define('WP_DEBUG_LOG', true);
+    // error_log('Datos recibidos en la solicitud AJAX: ' . print_r($data, true));
     try {
         if (!wp_verify_nonce($data->nonce, 'ajax_nonce'))
             throw new \Exception("Verificación nonce no válida ✋", 403);
@@ -116,7 +117,7 @@ function create_new_lead()
         } else {
             wp_send_json_error($response, 500);
         }
-        error_log('Error en la solicitud AJAX Step 1: ' . print_r($error->getMessage()));
+        error_log('Error en la solicitud AJAX: ' . print_r($error->getMessage()));
     }
     wp_die();
 }
@@ -176,7 +177,7 @@ function update_lead()
         update_field('revisar_buro', $revisar_buro == 1 ? 'SI' : '', $post_id);
         update_field('terminos_condiciones', $terminos_condiciones == 1 ? 'SI' : '', $post_id);
 
-        $response = array('ok' => true, 'post_id' => $post_id, 'message' => 'Datos guardados con éxito');
+        $response = array('ok' => true, 'message' => 'Datos guardados con éxito');
         wp_send_json_success($response, 200);
     } catch (\Exception $error) {
         $response = array(
@@ -188,7 +189,7 @@ function update_lead()
         } else {
             wp_send_json_error($response, 500);
         }
-        error_log('Error en la solicitud AJAX Step 1: ' . print_r($error->getMessage()));
+        error_log('Error en la solicitud AJAX: ' . print_r($error->getMessage()));
     }
     wp_die();
 }
