@@ -13,7 +13,7 @@ export const LeadForm: React.FC<{ id: number; title: string }> = ({
 }) => {
   const [postId, setPostId] = useState<number | undefined>();
   const pagination: PaginationOptions = {
-    clickable: true,
+    clickable: false,
     renderBullet: (index, className) =>
       `<span class="${className}" data-bullet="${index}"><output>${
         index + 1
